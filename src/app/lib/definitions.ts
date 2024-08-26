@@ -34,6 +34,7 @@ export type School =
   | "transmutation";
 
 export type CastingTime =
+  | "instantaneous"
   | "1 action"
   | "1 bonus action"
   | "1 reaction"
@@ -42,7 +43,8 @@ export type CastingTime =
   | "1 hour"
   | "8 hours"
   | "12 hours"
-  | "24 hours";
+  | "24 hours"
+  | "conditional";
 
 export type Ability =
   | "strength"
@@ -94,6 +96,13 @@ export type Condition =
 
 export type AreaOfEffect = "cone" | "cube" | "cylinder" | "line" | "sphere";
 
+export type SpellComponents = {
+  verbal: boolean;
+  somatic: boolean;
+  material: boolean;
+  materials?: string[];
+};
+
 export type Spell = {
   id: string;
   name: string;
@@ -102,21 +111,16 @@ export type Spell = {
   level: number | "cantrip";
   school: School;
   casting_time: CastingTime;
-  duration: "instantaneous";
-  area_of_effect: {
+  duration: CastingTime;
+  area_of_effect?: {
     shape?: AreaOfEffect;
-    range?: number;
+    range_in_feet?: number;
   };
-  save: Ability;
+  save?: Ability;
   type: SpellType;
-  damage_type: DamageType;
+  damage_type?: DamageType[];
   conditions?: Condition[];
-  components?: {
-    verbal: boolean;
-    somatic: boolean;
-    material: boolean;
-    materials?: string[];
-  };
+  components: SpellComponents;
   concentration: boolean;
   ritual: boolean;
 };
@@ -135,4 +139,5 @@ export type Character = {
     wisdom: number;
     charisma: number;
   };
+  // spell_slots
 };
