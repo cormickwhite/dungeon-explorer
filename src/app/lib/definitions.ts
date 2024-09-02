@@ -96,31 +96,47 @@ export type Condition =
 
 export type AreaOfEffect = "cone" | "cube" | "cylinder" | "line" | "sphere";
 
-export type SpellComponents = {
-  verbal: boolean;
-  somatic: boolean;
-  material: boolean;
-  materials?: string[];
-};
+export type Level =
+  | "1"
+  | "2"
+  | "3"
+  | "4"
+  | "5"
+  | "6"
+  | "7"
+  | "8"
+  | "9"
+  | "10"
+  | "11"
+  | "12"
+  | "13"
+  | "14"
+  | "15"
+  | "16"
+  | "17"
+  | "18"
+  | "19"
+  | "20";
 
 export type Spell = {
   id: string;
   name: string;
   description: string;
   class: Class[];
-  level: number | "cantrip";
+  level: Level | "cantrip";
   school: School;
   casting_time: CastingTime;
   duration: CastingTime;
-  area_of_effect?: {
-    shape?: AreaOfEffect;
-    range_in_feet?: number;
-  };
+  area_of_effect_shape?: AreaOfEffect;
+  area_of_effect_range_in_feet?: number;
   save?: Ability;
   type: SpellType;
   damage_type?: DamageType[];
   conditions?: Condition[];
-  components: SpellComponents;
+  verbal_component: boolean;
+  somatic_component: boolean;
+  material_component: boolean;
+  materials?: string[];
   concentration: boolean;
   ritual: boolean;
 };
@@ -129,15 +145,12 @@ export type Character = {
   id: string;
   name: string;
   class: Class;
-  level: number;
+  level: Level;
   race: Race;
-  ability_scores: {
-    strength: number;
-    dexterity: number;
-    constitution: number;
-    intelligence: number;
-    wisdom: number;
-    charisma: number;
-  };
-  // spell_slots
+  strength: number;
+  dexterity: number;
+  constitution: number;
+  intelligence: number;
+  wisdom: number;
+  charisma: number;
 };

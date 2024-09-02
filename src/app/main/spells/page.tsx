@@ -1,5 +1,9 @@
 import SpellTable from "../../components/spell-table";
 
-export default function Spells() {
-  return <SpellTable spells={[]} />;
+import { fetchSpells } from "../../lib/data";
+
+export default async function Spells() {
+  const spells = await fetchSpells();
+
+  return <SpellTable spells={spells} />;
 }

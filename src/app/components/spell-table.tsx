@@ -19,7 +19,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
 
-import { Spell, SpellComponents } from "../lib/definitions";
+import { Spell } from "../lib/definitions";
 
 function SpellRow(props: { row: Spell }) {
   const { row } = props;
@@ -27,13 +27,13 @@ function SpellRow(props: { row: Spell }) {
 
   const buildComponentsString = () => {
     let componentsArray = [];
-    if (row.components.verbal) {
+    if (row.verbal_component) {
       componentsArray.push("verbal");
     }
-    if (row.components.somatic) {
+    if (row.somatic_component) {
       componentsArray.push("somatic");
     }
-    if (row.components.material) {
+    if (row.material_component) {
       componentsArray.push("material");
     }
 
@@ -81,19 +81,13 @@ function SpellRow(props: { row: Spell }) {
               >
                 <Grid item>
                   <Typography>type: {row.type}</Typography>
-                  {row.area_of_effect && (
-                    <>
-                      {row.area_of_effect.range_in_feet && (
-                        <Typography>
-                          range: {row.area_of_effect.range_in_feet} ft.
-                        </Typography>
-                      )}
-                      {row.area_of_effect.shape && (
-                        <Typography>
-                          shape: {row.area_of_effect.shape}
-                        </Typography>
-                      )}
-                    </>
+                  {row.area_of_effect_range_in_feet && (
+                    <Typography>
+                      range: {row.area_of_effect_range_in_feet} ft.
+                    </Typography>
+                  )}
+                  {row.area_of_effect_shape && (
+                    <Typography>shape: {row.area_of_effect_shape}</Typography>
                   )}
                 </Grid>
                 <Grid item>
@@ -112,9 +106,9 @@ function SpellRow(props: { row: Spell }) {
                 <Grid item>
                   <Typography>ritual: {row.ritual ? "yes" : "no"}</Typography>
                   <Typography>components: {buildComponentsString()}</Typography>
-                  {row.components.materials && (
+                  {row.materials && (
                     <Typography>
-                      materials: {row.components.materials.join(", ")}
+                      materials: {row.materials.join(", ")}
                     </Typography>
                   )}
                 </Grid>
