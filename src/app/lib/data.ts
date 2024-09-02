@@ -2,7 +2,7 @@ import { sql } from "@vercel/postgres";
 
 import { revalidatePath } from "next/cache";
 
-import { Spell } from "./definitions";
+import { Character, Spell } from "./definitions";
 
 export async function fetchSpells() {
   try {
@@ -11,8 +11,21 @@ export async function fetchSpells() {
     return data.rows;
   } catch (error) {
     console.error("Database Error:", error);
-    throw new Error("Failed to fetch revenue data.");
+    throw new Error("Failed to fetch spell data.");
   } finally {
     revalidatePath("/main/spells");
+  }
+}
+
+export async function fetchCharacters() {
+  try {
+    const data = await sql<Character>`SELECT * FROM characters`;
+
+    return data.rows;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch character data.");
+  } finally {
+    revalidatePath("/main/characters");
   }
 }
