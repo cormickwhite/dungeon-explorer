@@ -1,9 +1,21 @@
+import { SpellTableFilter } from "../../components/table-filter";
 import SpellTable from "../../components/spell-table";
 
-import { fetchSpells } from "../../lib/data";
+export default async function Spells({
+  searchParams,
+}: {
+  searchParams?: {
+    characterClass?: string;
+    // page?: string;
+  };
+}) {
+  const characterClass = searchParams?.characterClass || "";
+  // const currentPage = Number(searchParams?.page) || 1;
 
-export default async function Spells() {
-  const spells = await fetchSpells();
-
-  return <SpellTable spells={spells} />;
+  return (
+    <>
+      <SpellTableFilter />
+      <SpellTable query={{ characterClass: characterClass }} />
+    </>
+  );
 }
