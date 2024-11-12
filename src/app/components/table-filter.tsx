@@ -42,7 +42,7 @@ export function SpellTableFilter() {
     <MenuItem value="" key="none">
       none
     </MenuItem>,
-    <MenuItem value="cantrip" key="cantrip">
+    <MenuItem value="0" key="0">
       cantrip
     </MenuItem>,
   ];
@@ -104,12 +104,12 @@ export function SpellTableFilter() {
         <Grid item>
           <Box sx={{ minWidth: 180 }}>
             <FormControl fullWidth>
-              <InputLabel id="class-spell-level-label">Level</InputLabel>
+              <InputLabel id="class-spell-level-label">Max Level</InputLabel>
               <Select
-                labelId="level-select-label"
-                id="level-select"
+                labelId="max-level-select-label"
+                id="max-level-select"
                 value={spellLevel}
-                label="Level"
+                label="Max Level"
                 onChange={handleSpellLevelChange}
               >
                 {spellLevelMenu}

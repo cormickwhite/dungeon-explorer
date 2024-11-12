@@ -96,34 +96,12 @@ export type Condition =
 
 export type AreaOfEffect = "cone" | "cube" | "cylinder" | "line" | "sphere";
 
-export type Level =
-  | "1"
-  | "2"
-  | "3"
-  | "4"
-  | "5"
-  | "6"
-  | "7"
-  | "8"
-  | "9"
-  | "10"
-  | "11"
-  | "12"
-  | "13"
-  | "14"
-  | "15"
-  | "16"
-  | "17"
-  | "18"
-  | "19"
-  | "20";
-
 export type Spell = {
   id: string;
   name: string;
   description: string;
   class: Class[];
-  level: Level | "cantrip";
+  level: number;
   school: School;
   casting_time: CastingTime;
   duration: CastingTime;
@@ -145,7 +123,7 @@ export type Character = {
   id: string;
   name: string;
   class: Class;
-  level: Level;
+  level: number;
   race: Race;
   strength: number;
   dexterity: number;
