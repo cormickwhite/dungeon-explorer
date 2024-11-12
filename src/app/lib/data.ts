@@ -5,16 +5,17 @@ import { revalidatePath } from "next/cache";
 import { Character, Spell } from "./definitions";
 
 export async function fetchSpells(query: any) {
-  const { characterClass, spellLevel } = query;
+  const { characterClass, spellLevel, spellName } = query;
 
-  if (characterClass && spellLevel) {
+  if (characterClass && spellName) {
     try {
       const data = await sql<Spell>`
       SELECT *
       FROM spells
       WHERE
-        level <= ${spellLevel} AND
-        ${characterClass} = ANY(spells.class);
+        level <= ${spellLevel ? spellLevel : 20} AND
+        ${characterClass} = ANY(spells.class) AND
+        name ILIKE ${`%${spellName}%`};
       `;
 
       return data.rows;
@@ -29,7 +30,9 @@ export async function fetchSpells(query: any) {
       const data = await sql<Spell>`
       SELECT *
       FROM spells
-      WHERE ${characterClass} = ANY(spells.class);
+      WHERE
+        level <= ${spellLevel ? spellLevel : 20} AND
+        ${characterClass} = ANY(spells.class);
       `;
 
       return data.rows;
@@ -39,12 +42,13 @@ export async function fetchSpells(query: any) {
     } finally {
       revalidatePath("/main/spells");
     }
-  } else if (spellLevel) {
+  } else if (spellName) {
     try {
       const data = await sql<Spell>`
       SELECT *
       FROM spells
-      WHERE level <= ${spellLevel}
+      WHERE name ILIKE ${`%${spellName}%`} AND
+      level <= ${spellLevel ? spellLevel : 20}
       `;
 
       return data.rows;
@@ -59,6 +63,7 @@ export async function fetchSpells(query: any) {
       const data = await sql<Spell>`
       SELECT *
       FROM spells
+      WHERE level <= ${spellLevel ? spellLevel : 20}
       `;
 
       return data.rows;

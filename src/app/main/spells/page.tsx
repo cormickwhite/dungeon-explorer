@@ -7,18 +7,24 @@ export default async function Spells({
   searchParams?: {
     characterClass?: string;
     spellLevel?: string;
+    spellName?: string;
     // page?: string;
   };
 }) {
   const characterClass = searchParams?.characterClass || "";
   const spellLevel = searchParams?.spellLevel || "";
+  const spellName = searchParams?.spellName || "";
   // const currentPage = Number(searchParams?.page) || 1;
 
   return (
     <>
       <SpellTableFilter />
       <SpellTable
-        query={{ characterClass: characterClass, spellLevel: spellLevel }}
+        query={{
+          characterClass: characterClass,
+          spellLevel: spellLevel,
+          spellName: spellName,
+        }}
       />
     </>
   );
