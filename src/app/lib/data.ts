@@ -4,8 +4,12 @@ import { revalidatePath } from "next/cache";
 
 import { Character, Spell } from "./definitions";
 
+export const PER_PAGE = 20;
+
 export async function fetchSpells(query: any) {
-  const { characterClass, spellLevel, spellName } = query;
+  const { characterClass, spellLevel, spellName, page } = query;
+
+  const pageOffset = (page - 1) * PER_PAGE;
 
   if (characterClass && spellName) {
     try {
@@ -16,6 +20,7 @@ export async function fetchSpells(query: any) {
         level <= ${spellLevel ? spellLevel : 20} AND
         ${characterClass} = ANY(spells.class) AND
         name ILIKE ${`%${spellName}%`};
+      LIMIT ${PER_PAGE} OFFSET ${pageOffset}
       `;
 
       return data.rows;
@@ -32,7 +37,8 @@ export async function fetchSpells(query: any) {
       FROM spells
       WHERE
         level <= ${spellLevel ? spellLevel : 20} AND
-        ${characterClass} = ANY(spells.class);
+        ${characterClass} = ANY(spells.class)
+      LIMIT ${PER_PAGE} OFFSET ${pageOffset}
       `;
 
       return data.rows;
@@ -49,6 +55,7 @@ export async function fetchSpells(query: any) {
       FROM spells
       WHERE name ILIKE ${`%${spellName}%`} AND
       level <= ${spellLevel ? spellLevel : 20}
+      LIMIT ${PER_PAGE} OFFSET ${pageOffset}
       `;
 
       return data.rows;
@@ -64,6 +71,7 @@ export async function fetchSpells(query: any) {
       SELECT *
       FROM spells
       WHERE level <= ${spellLevel ? spellLevel : 20}
+      LIMIT ${PER_PAGE} OFFSET ${pageOffset}
       `;
 
       return data.rows;
@@ -73,6 +81,23 @@ export async function fetchSpells(query: any) {
     } finally {
       revalidatePath("/main/spells");
     }
+  }
+}
+
+export async function fetchSpellCount() {
+  try {
+    const data = await sql`
+    SELECT
+      COUNT(*)
+    FROM
+      spells;`;
+
+    return data.rows[0].count;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch spell count data.");
+  } finally {
+    revalidatePath("/main/spells");
   }
 }
 
