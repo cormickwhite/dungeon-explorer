@@ -80,15 +80,20 @@ export default function SpellRow(props: { row: Spell }) {
                 sx={{ marginBottom: 2 }}
               >
                 <Grid item>
-                  <Typography>type: {row.type}</Typography>
-                  {row.area_of_effect_range_in_feet && (
+                  <Typography>casting time: {row.casting_time}</Typography>
+                  {(row.range || row.range_in_feet) && (
                     <Typography>
-                      range: {row.area_of_effect_range_in_feet} ft.
+                      range: {row.range ? `${row.range} ` : ""}
+                      {row.range_in_feet ? `${row.range_in_feet} ft.` : ""}
                     </Typography>
                   )}
-                  {row.area_of_effect_shape && (
-                    <Typography>shape: {row.area_of_effect_shape}</Typography>
-                  )}
+                  {row.area_of_effect_shape &&
+                    row.area_of_effect_size_in_feet && (
+                      <Typography>
+                        shape: {row.area_of_effect_size_in_feet} ft.{" "}
+                        {row.area_of_effect_shape}
+                      </Typography>
+                    )}
                 </Grid>
                 <Grid item>
                   {row.conditions && (
@@ -101,10 +106,9 @@ export default function SpellRow(props: { row: Spell }) {
                     {row.duration}
                   </Typography>
                   <Typography>school: {row.school}</Typography>
-                  <Typography>casting time: {row.casting_time}</Typography>
                 </Grid>
                 <Grid item>
-                  <Typography>ritual: {row.ritual ? "yes" : "no"}</Typography>
+                  {row.ritual && <Typography>ritual</Typography>}
                   <Typography>components: {buildComponentsString()}</Typography>
                   {row.materials && (
                     <Typography>

@@ -54,7 +54,7 @@ export type Ability =
   | "wisdom"
   | "charisma";
 
-export type SpellType = "melee" | "ranged";
+export type Range = "self" | "touch" | "sight";
 
 export type DamageType =
   | "acid"
@@ -112,9 +112,10 @@ export type Spell = {
   casting_time: CastingTime;
   duration: CastingTime;
   area_of_effect_shape?: AreaOfEffect;
-  area_of_effect_range_in_feet?: number;
+  area_of_effect_size_in_feet?: number;
+  range?: Range;
+  range_in_feet?: number;
   save?: Ability;
-  type: SpellType;
   damage_type?: DamageType[];
   conditions?: Condition[];
   verbal_component: boolean;
