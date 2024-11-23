@@ -58,7 +58,7 @@ export default function SpellRow(props: { row: Spell }) {
           </IconButton>
         </TableCell>
         <TableCell>{row.name}</TableCell>
-        <TableCell>{row.level}</TableCell>
+        <TableCell>{row.level === 0 ? "cantrip" : row.level}</TableCell>
         <TableCell>{row.class.join(", ")}</TableCell>
         <TableCell>{row.damage_type}</TableCell>
         <TableCell>{row.save}</TableCell>

@@ -13,7 +13,7 @@ export async function fetchSpells(query: any) {
       SELECT *
       FROM spells
       WHERE
-        level = ${spellLevel} AND
+        level <= ${spellLevel} AND
         ${characterClass} = ANY(spells.class);
       `;
 
@@ -44,7 +44,7 @@ export async function fetchSpells(query: any) {
       const data = await sql<Spell>`
       SELECT *
       FROM spells
-      WHERE level = ${spellLevel}
+      WHERE level <= ${spellLevel}
       `;
 
       return data.rows;
