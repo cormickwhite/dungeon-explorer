@@ -5,6 +5,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 
 import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import FormControl from "@mui/material/FormControl";
 import Grid from "@mui/material/Grid";
 import InputLabel from "@mui/material/InputLabel";
@@ -66,10 +67,16 @@ export function SpellTableFilter() {
     );
   }
 
+  const handleClear = () => {
+    setSpellName("");
+    setSpellLevel("");
+    setCharacterClass("");
+  };
+
   useEffect(() => {
     const params = new URLSearchParams(searchParams);
 
-    //     // params.set("page", "1");
+    // params.set("page", "1");
 
     characterClass
       ? params.set("characterClass", characterClass)
@@ -86,7 +93,7 @@ export function SpellTableFilter() {
 
   return (
     <>
-      <Grid container spacing={2} sx={{ padding: 2 }}>
+      <Grid container spacing={2} alignItems="center" sx={{ padding: 2 }}>
         <Grid item>
           <Box sx={{ minWidth: 120 }}>
             <FormControl fullWidth>
@@ -142,6 +149,13 @@ export function SpellTableFilter() {
                 onChange={handleSpellNameChange}
               />
             </FormControl>
+          </Box>
+        </Grid>
+        <Grid item>
+          <Box>
+            <Button variant="outlined" size="large" onClick={handleClear}>
+              Clear
+            </Button>
           </Box>
         </Grid>
       </Grid>
