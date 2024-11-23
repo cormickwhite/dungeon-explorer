@@ -25,7 +25,7 @@ export default async function SpellTable(props: { query: any }) {
             <TableCell />
             <TableCell>name</TableCell>
             <TableCell>level</TableCell>
-            <TableCell>classes</TableCell>
+            <TableCell>class</TableCell>
             <TableCell>damage</TableCell>
             <TableCell>save</TableCell>
           </TableRow>

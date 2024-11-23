@@ -96,6 +96,12 @@ export type Condition =
 
 export type AreaOfEffect = "cone" | "cube" | "cylinder" | "line" | "sphere";
 
+export type SpellDataTable = {
+  title: string;
+  fields: string[];
+  rows: any[];
+};
+
 export type Spell = {
   id: string;
   name: string;
@@ -117,6 +123,7 @@ export type Spell = {
   materials?: string[];
   concentration: boolean;
   ritual: boolean;
+  data_table?: SpellDataTable;
 };
 
 export type Character = {

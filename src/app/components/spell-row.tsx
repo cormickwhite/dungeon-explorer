@@ -6,7 +6,12 @@ import Box from "@mui/material/Box";
 import Collapse from "@mui/material/Collapse";
 import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
+import Paper from "@mui/material/Paper";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Typography from "@mui/material/Typography";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
@@ -60,8 +65,10 @@ export default function SpellRow(props: { row: Spell }) {
         <TableCell>{row.name}</TableCell>
         <TableCell>{row.level === 0 ? "cantrip" : row.level}</TableCell>
         <TableCell>{row.class.join(", ")}</TableCell>
-        <TableCell>{row.damage_type}</TableCell>
-        <TableCell>{row.save}</TableCell>
+        <TableCell>
+          {row.damage_type ? row.damage_type?.join(", ") : "none"}
+        </TableCell>
+        <TableCell>{row.save ?? "none"}</TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -107,9 +114,44 @@ export default function SpellRow(props: { row: Spell }) {
                 </Grid>
               </Grid>
 
-              <Typography gutterBottom sx={{ marginLeft: 4, marginRight: 4 }}>
+              <Typography
+                gutterBottom
+                sx={{ marginLeft: 4, marginRight: 4, whiteSpace: "pre-wrap" }}
+              >
                 {row.description}
               </Typography>
+              {row.data_table && (
+                <Box sx={{ margin: 2 }}>
+                  <Typography variant="h6" id="tableTitle" component="div">
+                    {row.data_table.title}
+                  </Typography>
+                  <TableContainer component={Paper}>
+                    <Table aria-label="collapsible table">
+                      <TableHead>
+                        <TableRow>
+                          {row.data_table.fields.map((field) => (
+                            <TableCell key={field}>
+                              {field.replace(/_/g, " ")}
+                            </TableCell>
+                          ))}
+                        </TableRow>
+                      </TableHead>
+
+                      <TableBody>
+                        {row.data_table.rows.map((row, index) => (
+                          <TableRow key={index}>
+                            {Object.keys(row).map((rowFields) => (
+                              <TableCell key={rowFields}>
+                                {row[rowFields]}
+                              </TableCell>
+                            ))}
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                </Box>
+              )}
             </Box>
           </Collapse>
         </TableCell>

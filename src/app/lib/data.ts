@@ -20,6 +20,7 @@ export async function fetchSpells(query: any) {
         level <= ${spellLevel ? spellLevel : 20} AND
         ${characterClass} = ANY(spells.class) AND
         name ILIKE ${`%${spellName}%`};
+      ORDER BY name
       LIMIT ${PER_PAGE} OFFSET ${pageOffset}
       `;
 
@@ -38,6 +39,7 @@ export async function fetchSpells(query: any) {
       WHERE
         level <= ${spellLevel ? spellLevel : 20} AND
         ${characterClass} = ANY(spells.class)
+      ORDER BY name
       LIMIT ${PER_PAGE} OFFSET ${pageOffset}
       `;
 
@@ -55,6 +57,7 @@ export async function fetchSpells(query: any) {
       FROM spells
       WHERE name ILIKE ${`%${spellName}%`} AND
       level <= ${spellLevel ? spellLevel : 20}
+      ORDER BY name
       LIMIT ${PER_PAGE} OFFSET ${pageOffset}
       `;
 
@@ -71,6 +74,7 @@ export async function fetchSpells(query: any) {
       SELECT *
       FROM spells
       WHERE level <= ${spellLevel ? spellLevel : 20}
+      ORDER BY name
       LIMIT ${PER_PAGE} OFFSET ${pageOffset}
       `;
 
