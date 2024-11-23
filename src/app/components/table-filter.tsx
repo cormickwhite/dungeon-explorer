@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 
@@ -10,6 +10,7 @@ import Grid from "@mui/material/Grid";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
+import TextField from "@mui/material/TextField";
 
 export function SpellTableFilter() {
   const searchParams = useSearchParams();
@@ -36,6 +37,17 @@ export function SpellTableFilter() {
       target: { value },
     } = event;
     setSpellLevel(value);
+  };
+
+  const [spellName, setSpellName] = useState(
+    searchParams.get("spellName")?.toString() ?? ""
+  );
+
+  const handleSpellNameChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value },
+    } = event;
+    setSpellName(value);
   };
 
   let spellLevelMenu = [
@@ -67,8 +79,10 @@ export function SpellTableFilter() {
       ? params.set("spellLevel", spellLevel)
       : params.delete("spellLevel");
 
+    spellName ? params.set("spellName", spellName) : params.delete("spellName");
+
     replace(`${pathname}?${params.toString()}`);
-  }, [characterClass, spellLevel]);
+  }, [characterClass, spellLevel, spellName]);
 
   return (
     <>
@@ -102,7 +116,7 @@ export function SpellTableFilter() {
           </Box>
         </Grid>
         <Grid item>
-          <Box sx={{ minWidth: 180 }}>
+          <Box sx={{ minWidth: 120 }}>
             <FormControl fullWidth>
               <InputLabel id="class-spell-level-label">Max Level</InputLabel>
               <Select
@@ -114,6 +128,19 @@ export function SpellTableFilter() {
               >
                 {spellLevelMenu}
               </Select>
+            </FormControl>
+          </Box>
+        </Grid>
+        <Grid item>
+          <Box sx={{ maxWidth: 120 }}>
+            <FormControl>
+              <TextField
+                id="spell-name"
+                label="Spell Name"
+                variant="outlined"
+                value={spellName}
+                onChange={handleSpellNameChange}
+              />
             </FormControl>
           </Box>
         </Grid>
